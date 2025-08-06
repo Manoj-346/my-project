@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crunchyroll - Watch Anime Online</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            scroll-behavior: smooth;
+        }
+        /* Custom scrollbar styles */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #2c2c2c;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4a4a4a;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6a6a6a;
+        }
+        /* Style for the slider container */
+        .slider-container {
+            transition: transform 0.5s ease-in-out;
+        }
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #f97316;
+            width: 32px;
+            height: 32px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+
+    <!-- Header -->
+    <header id="main-header" class="bg-gray-800 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-8">
+                <a href="#" class="text-3xl font-extrabold text-orange-500">Crunchyroll</a>
+                <!-- Main Nav Links - Hidden on small screens -->
+                <nav class="hidden md:flex space-x-6 text-lg font-semibold">
+                    <a href="#" class="hover:text-orange-500 transition-colors duration-300">Home</a>
+                    <a href="#simulcasts-section" class="hover:text-orange-500 transition-colors duration-300">Simulcasts</a>
+                    <a href="#manga-section" class="hover:text-orange-500 transition-colors duration-300">Manga</a>
+                    <a href="#" class="hover:text-orange-500 transition-colors duration-300">Games</a>
+                </nav>
+            </div>
+            
+            <!-- User Actions & Search -->
+            <div id="user-actions" class="flex items-center space-x-4">
+                <!-- Search Bar -->
+                <div class="relative hidden sm:block">
+                    <input type="text" id="anime-search-input" placeholder="Search for an anime..." class="bg-gray-700 text-white rounded-full py-2 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all duration-300 w-48 lg:w-64">
+                    <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <!-- Login/Sign Up Buttons (initially visible) -->
+                <button id="login-button" class="bg-gray-700 hover:bg-gray-600 transition-colors duration-300 text-white px-4 py-2 rounded-full font-semibold hidden sm:block">Log In</button>
+                <button id="signup-button" class="bg-orange-600 hover:bg-orange-700 transition-colors duration-300 text-white px-4 py-2 rounded-full font-semibold">Sign Up</button>
+                <!-- Profile Icon (initially hidden) -->
+                <button id="profile-icon" class="w-10 h-10 rounded-full bg-orange-600 flex items-center justify-center text-white text-lg font-bold hidden cursor-pointer">A</button>
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 mt-8">
+        <!-- Hero Section with Slider -->
+        <section class="relative h-96 sm:h-[400px] md:h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-xl mb-12">
+            <!-- Slider Container -->
+            <div id="hero-slider-container" class="flex w-full h-full slider-container">
+                <!-- Hero Slide 1 -->
+                <div class="flex-shrink-0 w-full h-full relative">
+                    <img src="https://cdn.myanimelist.net/images/anime/1138/150796.jpg" onerror="this.onerror=null;this.src='https://placehold.co/1920x600/1e293b/d1d5db?text=Attack+on+Titan+Final+Season';" alt="Attack on Titan Final Season" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent flex flex-col justify-end p-8 sm:p-12">
+                        <h1 class="text-3xl sm:text-4xl lg:text-6xl font-bold mb-2 lg:mb-4">Attack on Titan Final Season</h1>
+                        <p class="text-base sm:text-lg lg:text-xl max-w-xl mb-4 lg:mb-6 hidden sm:block">The final battle for Paradis begins as Eren's devastating plans come to fruition. The fate of the world rests on the shoulders of his former friends.</p>
+                        <button class="bg-orange-600 hover:bg-orange-700 transition-colors duration-300 text-white font-bold py-3 px-8 rounded-full shadow-lg self-start">Watch Now</button>
+                    </div>
+                </div>
+                <!-- Hero Slide 2 -->
+                <div class="flex-shrink-0 w-full h-full relative">
+                    <img src="https://cdn.myanimelist.net/images/anime/1015/138006.jpg" onerror="this.onerror=null;this.src='https://placehold.co/1920x600/3e334a/d1d5db?text=Frieren:+Beyond+Journey\'s+End';" alt="Frieren: Beyond Journey's End" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent flex flex-col justify-end p-8 sm:p-12">
+                        <h1 class="text-3xl sm:text-4xl lg:text-6xl font-bold mb-2 lg:mb-4">Frieren: Beyond Journey's End</h1>
+                        <p class="text-base sm:text-lg lg:text-xl max-w-xl mb-4 lg:mb-6 hidden sm:block">After the defeat of the Demon King, the elven mage Frieren embarks on a new journey to understand humanity and the meaning of a life lived.</p>
+                        <button class="bg-orange-600 hover:bg-orange-700 transition-colors duration-300 text-white font-bold py-3 px-8 rounded-full shadow-lg self-start">Watch Now</button>
+                    </div>
+                </div>
+                <!-- Hero Slide 3 -->
+                <div class="flex-shrink-0 w-full h-full relative">
+                    <img src="https://cdn.myanimelist.net/images/anime/1769/138856.jpg" onerror="this.onerror=null;this.src='https://placehold.co/1920x600/222222/d1d5db?text=Jujutsu+Kaisen';" alt="Jujutsu Kaisen" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent flex flex-col justify-end p-8 sm:p-12">
+                        <h1 class="text-3xl sm:text-4xl lg:text-6xl font-bold mb-2 lg:mb-4">Jujutsu Kaisen</h1>
+                        <p class="text-base sm:text-lg lg:text-xl max-w-xl mb-4 lg:mb-6 hidden sm:block">A high school student's life is changed forever when he ingests a cursed object, becoming a host for a powerful Curse. He joins a secret society to save the world.</p>
+                        <button class="bg-orange-600 hover:bg-orange-700 transition-colors duration-300 text-white font-bold py-3 px-8 rounded-full shadow-lg self-start">Watch Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slider Navigation Arrows -->
+            <button id="prev-slide" class="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black bg-opacity-50 text-white hover:bg-opacity-75 transition-all duration-200">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+            </button>
+            <button id="next-slide" class="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black bg-opacity-50 text-white hover:bg-opacity-75 transition-all duration-200">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                </svg>
+            </button>
+
+            <!-- Slider Dots -->
+            <div id="slider-dots" class="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-2">
+                <div class="w-3 h-3 rounded-full bg-orange-500 cursor-pointer"></div>
+                <div class="w-3 h-3 rounded-full bg-gray-500 hover:bg-gray-400 transition-colors duration-200 cursor-pointer"></div>
+                <div class="w-3 h-3 rounded-full bg-gray-500 hover:bg-gray-400 transition-colors duration-200 cursor-pointer"></div>
+            </div>
+        </section>
+
+        <!-- Section for Search Results (Initially hidden) -->
+        <section id="search-results-section" class="hidden">
+            <h2 class="text-2xl font-bold mb-4">Search Results for "<span id="search-query-display"></span>"</h2>
+            <div id="search-results-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
+                <!-- Search results will be injected here -->
+            </div>
+        </section>
+        
+        <!-- Featured Sections Container -->
+        <div id="featured-sections" class="space-y-12">
+            <!-- Section: Simulcasts This Season -->
+            <section id="simulcasts-section">
+                <h2 class="text-2xl font-bold mb-4">Simulcasts This Season</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
+                    <!-- Anime Card 1 -->
+                    <div class="group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <img src="https://cdn.myanimelist.net/images/anime/1844/142079.jpg" onerror="this.onerror=null;this.src='https://placehold.co/300x450/4a4a4a/ffffff?text=Demon+Slayer';" alt="Demon Slayer: Hashira Training Arc" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-3 bg-gray-800">
+                            <h3 class="text-sm sm:text-base font-semibold truncate">Demon Slayer: Hashira Training Arc</h3>
+                            <span class="text-xs text-orange-500 font-bold mt-1 inline-block">New Episode Weekly</span>
+                        </div>
+                    </div>
+                    <!-- Anime Card 2 -->
+                    <div class="group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <img src="https://cdn.myanimelist.net/images/anime/5/72782.jpg" onerror="this.onerror=null;this.src='https://placehold.co/300x450/4a4a4a/ffffff?text=Re:Zero';" alt="Re:Zero - Starting Life in Another World" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-3 bg-gray-800">
+                            <h3 class="text-sm sm:text-base font-semibold truncate">Re:Zero - Starting Life in Another World</h3>
+                            <span class="text-xs text-orange-500 font-bold mt-1 inline-block">New Episode Weekly</span>
+                        </div>
+                    </div>
+                    <!-- Anime Card 3 -->
+                    <div class="group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <img src="https://cdn.myanimelist.net/images/anime/1220/144769.jpg" onerror="this.onerror=null;this.src='https://placehold.co/300x450/4a4a4a/ffffff?text=My+Hero+Academia';" alt="My Hero Academia Season 7" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-3 bg-gray-800">
+                            <h3 class="text-sm sm:text-base font-semibold truncate">My Hero Academia Season 7</h3>
+                            <span class="text-xs text-orange-500 font-bold mt-1 inline-block">New Episode Weekly</span>
+                        </div>
+                    </div>
+                    <!-- Anime Card 4 -->
+                    <div class="group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <img src="https://cdn.myanimelist.net/images/anime/1481/139265.jpg" onerror="this.onerror=null;this.src='https://placehold.co/300x450/4a4a4a/ffffff?text=That+Time+I+Got+Reincarnated+as+a+Slime';" alt="That Time I Got Reincarnated as a Slime" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-3 bg-gray-800">
+                            <h3 class="text-sm sm:text-base font-semibold truncate">That Time I Got Reincarnated as a Slime</h3>
+                            <span class="text-xs text-orange-500 font-bold mt-1 inline-block">New Episode Weekly</span>
+                        </div>
+                    </div>
+                    <!-- Anime Card 5 -->
+                    <div class="group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <img src="https://cdn.myanimelist.net/images/anime/1758/142981.jpg" onerror="this.onerror=null;this.src='https://placehold.co/300x450/4a4a4a/ffffff?text=Mushoku+Tensei';" alt="Mushoku Tensei: Jobless Reincarnation" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-3 bg-gray-800">
+                            <h3 class="text-sm sm:text-base font-semibold truncate">Mushoku Tensei: Jobless Reincarnation</h3>
+                            <span class="text-xs text-orange-500 font-bold mt-1 inline-block">New Episode Weekly</span>
+                        </div>
+                    </div>
+                    <!-- Anime Card 6 -->
+                    <div class="group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <img src="https://cdn.myanimelist.net/images/anime/1015/138006.jpg" onerror="this.onerror=null;this.src='https://placehold.co/300x450/4a4a4a/ffffff?text=Frieren';" alt="Frieren" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-3 bg-gray-800">
+                            <h3 class="text-sm sm:text-base font-semibold truncate">Frieren: Beyond Journey's End</h3>
+                            <span class="text-xs text-orange-500 font-bold mt-1 inline-block">New Episode Weekly</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Section: Currently Airing -->
+            <section>
+                <h2 class="text-2xl font-bold mb-4">Currently Airing</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
+                    <!-- Anime Card 1 -->
+                    <div class="group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <img src="https://cdn.myanimelist.net/images/anime/1769/138856.jpg" onerror="this.onerror=null;this.src='https://placehold.co/300x450/4a4a4a/ffffff?text=Jujutsu+Kaisen';" alt="Jujutsu Kaisen" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-3 bg-gray-800">
+                            <h3 class="text-sm sm:text-base font-semibold truncate">Jujutsu Kaisen Season 2</h3>
+                            <span class="text-xs text-orange-500 font-bold mt-1 inline-block">SUB | DUB</span>
+                        </div>
+                    </div>
+                    <!-- Anime Card 2 -->
+                    <div class="group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <img src="https://cdn.myanimelist.net/images/anime/6/73245.jpg" onerror="this.onerror=null;this.src='https://placehold.co/300x450/4a4a4a/ffffff?text=One+Piece';" alt="One Piece" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-3 bg-gray-800">
+                            <h3 class="text-sm sm:text-base font-semibold truncate">One Piece</h3>
+                            <span class="text-xs text-orange-500 font-bold mt-1 inline-block">SUB</span>
+                        </div>
+                    </div>
+                    <!-- Anime Card 3 -->
+                    <div class="group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <img src="https://cdn.myanimelist.net/images/anime/1220/144769.jpg" onerror="this.onerror=null;this.src='https://placehold.co/300x450/4a4a4a/ffffff?text=My+Hero+Academia';" alt="My Hero Academia" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-3 bg-gray-800">
+                            <h3 class="text-sm sm:text-base font-semibold truncate">My Hero Academia</h3>
+                            <span class="text-xs text-orange-500 font-bold mt-1 inline-block">DUB</span>
+                        </div>
+                    </div>
+                    <!-- Anime Card 4 -->
+                    <div class="group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <img src="https://cdn.myanimelist.net/images/anime/1286/99889.jpg" onerror="this.onerror=null;this.src='https://placehold.co/300x450/4a4a4a/ffffff?text=Demon+Slayer';" alt="Demon Slayer: Kimetsu no Yaiba" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-3 bg-gray-800">
+                            <h3 class="text-sm sm:text-base font-semibold truncate">Demon Slayer: Kimetsu no Yaiba</h3>
+                            <span class="text-xs text-orange-500 font-bold mt-1 inline-block">SUB | DUB</span>
+                        </div>
+                    </div>
+                    <!-- Anime Card 5 -->
+                    <div class="group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <img src="https://cdn.myanimelist.net/images/anime/1623/128359.jpg" onerror="this.onerror=null;this.src='https://placehold.co/300x450/4a4a4a/ffffff?text=Chainsaw+Man';" alt="Chainsaw Man" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-3 bg-gray-800">
+                            <h3 class="text-sm sm:text-base font-semibold truncate">Chainsaw Man</h3>
+                            <span class="text-xs text-orange-500 font-bold mt-1 inline-block">SUB</span>
+                        </div>
+                    </div>
+                    <!-- Anime Card 6 -->
+                    <div class="group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <img src="https://cdn.myanimelist.net/images/anime/1441/122795.jpg" onerror="this.onerror=null;this.src='https://placehold.co/300x450/4a4a4a/ffffff?text=Spy+x+Family';" alt="Spy x Family" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-3 bg-gray-800">
+                            <h3 class="text-sm sm:text-base font-semibold truncate">Spy x Family</h3>
+                            <span class="text-xs text-orange-500 font-bold mt-1 inline-block">DUB</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section: Popular Manga -->
+            <section id="manga-section">
+                <h2 class="text-2xl font-bold mb-4">Popular Manga</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
+                    <!-- Manga Card 1 -->
+                    <div class="group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <img src="https://cdn.myanimelist.net/images/manga/2/230113.jpg" onerror="this.onerror=null;this.src='https://placehold.co/300x450/4a4a4a/ffffff?text=Chainsaw+Man+Manga';" alt="Chainsaw Man Manga" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-3 bg-gray-800">
+                            <h3 class="text-sm sm:text-base font-semibold truncate">Chainsaw Man</h3>
+                            <span class="text-xs text-orange-500 font-bold mt-1 inline-block">New Chapter Weekly</span>
+                        </div>
+                    </div>
+                    <!-- Manga Card 2 -->
+                    <div class="group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <img src="https://cdn.myanimelist.net/images/manga/3/240763.jpg" onerror="this.onerror=null;this.src='https://placehold.co/300x450/4a4a4a/ffffff?text=Jujutsu+Kaisen+Manga';" alt="Jujutsu Kaisen Manga" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-3 bg-gray-800">
+                            <h3 class="text-sm sm:text-base font-semibold truncate">Jujutsu Kaisen</h3>
+                            <span class="text-xs text-orange-500 font-bold mt-1 inline-block">New Chapter Weekly</span>
+                        </div>
+                    </div>
+                    <!-- Manga Card 3 -->
+                    <div class="group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <img src="https://cdn.myanimelist.net/images/manga/2/252611.jpg" onerror="this.onerror=null;this.src='https://placehold.co/300x450/4a4a4a/ffffff?text=One+Piece+Manga';" alt="One Piece Manga" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-3 bg-gray-800">
+                            <h3 class="text-sm sm:text-base font-semibold truncate">One Piece</h3>
+                            <span class="text-xs text-orange-500 font-bold mt-1 inline-block">New Chapter Weekly</span>
+                        </div>
+                    </div>
+                    <!-- Manga Card 4 -->
+                    <div class="group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <img src="https://cdn.myanimelist.net/images/manga/3/226065.jpg" onerror="this.onerror=null;this.src='https://placehold.co/300x450/4a4a4a/ffffff?text=Spy+x+Family+Manga';" alt="Spy x Family Manga" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-3 bg-gray-800">
+                            <h3 class="text-sm sm:text-base font-semibold truncate">Spy x Family</h3>
+                            <span class="text-xs text-orange-500 font-bold mt-1 inline-block">New Chapter Weekly</span>
+                        </div>
+                    </div>
+                    <!-- Manga Card 5 -->
+                    <div class="group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <img src="https://cdn.myanimelist.net/images/manga/1/256920.jpg" onerror="this.onerror=null;this.src='https://placehold.co/300x450/4a4a4a/ffffff?text=Demon+Slayer+Manga';" alt="Demon Slayer Manga" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-3 bg-gray-800">
+                            <h3 class="text-sm sm:text-base font-semibold truncate">Demon Slayer: Kimetsu no Yaiba</h3>
+                            <span class="text-xs text-orange-500 font-bold mt-1 inline-block">New Chapter Weekly</span>
+                        </div>
+                    </div>
+                    <!-- Manga Card 6 -->
+                    <div class="group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <img src="https://cdn.myanimelist.net/images/manga/1/260844.jpg" onerror="this.onerror=null;this.src='https://placehold.co/300x450/4a4a4a/ffffff?text=My+Hero+Academia+Manga';" alt="My Hero Academia Manga" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="p-3 bg-gray-800">
+                            <h3 class="text-sm sm:text-base font-semibold truncate">My Hero Academia</h3>
+                            <span class="text-xs text-orange-500 font-bold mt-1 inline-block">New Chapter Weekly</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 mt-12 py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm text-gray-400">&copy; 2023 Crunchyroll, LLC. All Rights Reserved.</p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="#" class="text-gray-400 hover:text-orange-500 transition-colors duration-300">Terms of Use</a>
+                <a href="#" class="text-gray-400 hover:text-orange-500 transition-colors duration-300">Privacy Policy</a>
+                <a href="#" class="text-gray-400 hover:text-orange-500 transition-colors duration-300">Help Center</a>
+            </div>
+            <div class="mt-6 flex justify-center space-x-4">
+                <!-- Social Media Icons (placeholders) -->
+                <a href="#" class="text-gray-400 hover:text-orange-500 transition-colors duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.418 2.866 8.167 6.84 9.491.5.092.682-.217.682-.483 0-.237-.008-.867-.013-1.703-2.782.605-3.367-1.342-3.367-1.342-.454-1.158-1.11-1.474-1.11-1.474-.908-.62.067-.608.067-.608 1.007.07 1.532 1.03 1.532 1.03.89 1.529 2.34 1.089 2.91.833.091-.647.35-1.088.636-1.338-2.22-.253-4.555-1.102-4.555-4.934 0-1.092.39-1.983 1.03-2.675-.104-.252-.447-1.267.098-2.651 0 0 .84-.268 2.75 1.025A9.28 9.28 0 0112 6.863c.85.004 1.704.116 2.504.337 1.909-1.293 2.748-1.025 2.748-1.025.546 1.384.202 2.398.098 2.651.64.692 1.029 1.583 1.029 2.675 0 3.842-2.339 4.678-4.562 4.922.35.305.67.914.67 1.841 0 1.338-.012 2.417-.012 2.747 0 .267.18.577.688.484C20.137 20.2 23 16.452 23 12.017 23 6.484 18.522 2 13 2zm0 17.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" clip-rule="evenodd"></path></svg>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-orange-500 transition-colors duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22 6.002c-0.814 0.36-1.688 0.603-2.607 0.71a4.848 4.848 0 00-4.757-2.663c-3.155 0-5.719 2.564-5.719 5.719 0 0.448 0.051 0.88 0.149 1.295-4.758-0.24-8.995-2.518-11.82-5.968-0.493 0.84-0.776 1.812-0.776 2.85 0 1.986 1.011 3.738 2.553 4.757-0.748-0.024-1.452-0.23-2.062-0.57c-0.001 0.024-0.001 0.048-0.001 0.072 0 2.766 1.97 5.078 4.582 5.602-0.48 0.13-0.985 0.198-1.503 0.198-0.368 0-0.727-0.035-1.077-0.103 0.73 2.274 2.846 3.931 5.347 3.978-1.956 1.533-4.428 2.448-7.11 2.448-0.462 0-0.918-0.027-1.364-0.08 2.529 1.621 5.53 2.569 8.761 2.569 10.51 0 16.257-8.706 16.257-16.258 0-0.247-0.006-0.493-0.016-0.739 1.117-0.806 2.083-1.808 2.857-2.951z"></path></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- A simple message box instead of alert() -->
+    <div id="message-box" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-800 text-white px-6 py-4 rounded-xl shadow-2xl z-50 transition-all duration-300 hidden">
+        <p id="message-text" class="text-center font-semibold"></p>
+        <button id="close-message" class="absolute top-2 right-2 text-gray-400 hover:text-white">&times;</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Hero Slider Logic ---
+            const sliderContainer = document.getElementById('hero-slider-container');
+            const slides = sliderContainer.children;
+            const totalSlides = slides.length;
+            const nextButton = document.getElementById('next-slide');
+            const prevButton = document.getElementById('prev-slide');
+            const sliderDots = document.getElementById('slider-dots');
+            let currentSlide = 0;
+            let autoSlideInterval;
+
+            const updateSlider = () => {
+                const offset = -currentSlide * 100;
+                sliderContainer.style.transform = `translateX(${offset}%)`;
+                
+                // Update dots
+                Array.from(sliderDots.children).forEach((dot, index) => {
+                    if (index === currentSlide) {
+                        dot.classList.add('bg-orange-500');
+                        dot.classList.remove('bg-gray-500');
+                    } else {
+                        dot.classList.add('bg-gray-500');
+                        dot.classList.remove('bg-orange-500');
+                    }
+                });
+            };
+
+            const nextSlide = () => {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                updateSlider();
+            };
+
+            const prevSlide = () => {
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                updateSlider();
+            };
+
+            const startAutoSlide = () => {
+                autoSlideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+            };
+
+            const stopAutoSlide = () => {
+                clearInterval(autoSlideInterval);
+            };
+
+            nextButton.addEventListener('click', () => {
+                stopAutoSlide();
+                nextSlide();
+                startAutoSlide(); // Restart interval after manual interaction
+            });
+
+            prevButton.addEventListener('click', () => {
+                stopAutoSlide();
+                prevSlide();
+                startAutoSlide(); // Restart interval after manual interaction
+            });
+            
+            // Event listeners for dots
+            Array.from(sliderDots.children).forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    stopAutoSlide();
+                    currentSlide = index;
+                    updateSlider();
+                    startAutoSlide();
+                });
+            });
+
+            // Initial call and start auto-slide
+            updateSlider();
+            startAutoSlide();
+
+            // --- Anime Search Functionality ---
+            // These elements are used to handle the search functionality
+            const searchInput = document.getElementById('anime-search-input');
+            const searchResultsSection = document.getElementById('search-results-section');
+            const searchResultsContainer = document.getElementById('search-results-container');
+            const searchQueryDisplay = document.getElementById('search-query-display');
+            const featuredSections = document.getElementById('featured-sections');
+
+            // Jikan API endpoint for anime search
+            const API_URL = 'https://api.jikan.moe/v4/anime';
+            const DEBOUNCE_DELAY = 500; // Delay in milliseconds for search input
+            let timeoutId;
+
+            const searchAnime = async (query) => {
+                // Hide featured sections and show search results section
+                featuredSections.classList.add('hidden');
+                searchResultsSection.classList.remove('hidden');
+
+                // Show a loading spinner while fetching data
+                searchResultsContainer.innerHTML = `
+                    <div class="col-span-full flex justify-center items-center py-10">
+                        <div class="loading-spinner"></div>
+                        <p class="ml-4 text-xl">Searching for "${query}"...</p>
+                    </div>
+                `;
+
+                try {
+                    const response = await fetch(`${API_URL}?q=${query}`);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const data = await response.json();
+
+                    // Clear previous results
+                    searchResultsContainer.innerHTML = '';
+                    searchQueryDisplay.textContent = query;
+
+                    if (data.data.length === 0) {
+                        searchResultsContainer.innerHTML = `
+                            <div class="col-span-full text-center py-10">
+                                <p class="text-xl text-gray-400">No results found for "${query}".</p>
+                            </div>
+                        `;
+                    } else {
+                        // Dynamically create a card for each anime found
+                        data.data.forEach(anime => {
+                            const animeCard = document.createElement('div');
+                            animeCard.className = 'group cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2';
+                            
+                            // Use the large image if available, otherwise fall back to a placeholder
+                            const imageUrl = anime.images?.jpg?.large_image_url || 'https://placehold.co/300x450/4a4a4a/ffffff?text=Image+Not+Found';
+
+                            animeCard.innerHTML = `
+                                <img src="${imageUrl}" alt="${anime.title}" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null;this.src='https://placehold.co/300x450/4a4a4a/ffffff?text=Image+Not+Found';">
+                                <div class="p-3 bg-gray-800">
+                                    <h3 class="text-sm sm:text-base font-semibold truncate">${anime.title}</h3>
+                                    <p class="text-xs text-gray-400 mt-1">${anime.genres.map(g => g.name).join(', ')}</p>
+                                </div>
+                            `;
+                            searchResultsContainer.appendChild(animeCard);
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error fetching anime data:', error);
+                    searchResultsContainer.innerHTML = `
+                        <div class="col-span-full text-center py-10">
+                            <p class="text-xl text-red-500">Failed to fetch search results. Please try again later.</p>
+                        </div>
+                    `;
+                }
+            };
+            
+            // Listen for 'Enter' key press on the search input
+            searchInput.addEventListener('keyup', (event) => {
+                if (event.key === 'Enter' && searchInput.value.trim() !== '') {
+                    searchAnime(searchInput.value.trim());
+                }
+            });
+
+            // Optional: debounce the search as the user types
+            searchInput.addEventListener('input', () => {
+                clearTimeout(timeoutId);
+                const query = searchInput.value.trim();
+                if (query.length > 2) { // Only search if query is at least 3 characters long
+                    timeoutId = setTimeout(() => searchAnime(query), DEBOUNCE_DELAY);
+                } else if (query.length === 0) {
+                    // If the search bar is empty, hide the search results and show featured sections
+                    searchResultsSection.classList.add('hidden');
+                    featuredSections.classList.remove('hidden');
+                }
+            });
+
+            // --- Mock Authentication Logic (kept from previous version) ---
+            const loginButton = document.getElementById('login-button');
+            const signupButton = document.getElementById('signup-button');
+            const profileIcon = document.getElementById('profile-icon');
+            const userActionsContainer = document.getElementById('user-actions');
+
+            // Message box elements
+            const messageBox = document.getElementById('message-box');
+            const messageText = document.getElementById('message-text');
+            const closeMessageButton = document.getElementById('close-message');
+
+            const showMessage = (text) => {
+                messageText.textContent = text;
+                messageBox.classList.remove('hidden');
+            };
+
+            const hideMessage = () => {
+                messageBox.classList.add('hidden');
+            };
+
+            closeMessageButton.addEventListener('click', hideMessage);
+
+            const checkAuthStatus = () => {
+                const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                if (isLoggedIn) {
+                    loginButton.classList.add('hidden');
+                    signupButton.classList.add('hidden');
+                    profileIcon.classList.remove('hidden');
+                } else {
+                    loginButton.classList.remove('hidden');
+                    signupButton.classList.remove('hidden');
+                    profileIcon.classList.add('hidden');
+                }
+            };
+            
+            const handleLogin = () => {
+                localStorage.setItem('isLoggedIn', 'true');
+                checkAuthStatus();
+                showMessage('You have successfully logged in!');
+            };
+
+            const handleSignup = () => {
+                // In a real app, this would involve a form and a backend call
+                // For this mock, we just log the user in immediately
+                localStorage.setItem('isLoggedIn', 'true');
+                checkAuthStatus();
+                showMessage('Sign up successful! You are now logged in.');
+            };
+
+            const handleLogout = () => {
+                localStorage.setItem('isLoggedIn', 'false');
+                checkAuthStatus();
+                showMessage('You have been logged out.');
+            };
+
+            loginButton.addEventListener('click', handleLogin);
+            signupButton.addEventListener('click', handleSignup);
+            profileIcon.addEventListener('click', handleLogout);
+
+            // Check auth status on page load
+            checkAuthStatus();
+        });
+    </script>
+</body>
+</html>
