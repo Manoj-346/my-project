@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Sign Up</title>
+    <!-- Inter font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0d0d;
+        }
+
+        /* Custom CSS for a professional, dark card */
+        .card-container {
+            background-color: #171717;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Custom styling for input icons and focus state */
+        .input-group {
+            position: relative;
+        }
+        .input-group input {
+            padding-left: 3rem;
+            transition: all 0.3s ease-in-out;
+        }
+        .input-group input:focus {
+            border-color: #ff9f43; /* Muted orange accent */
+            box-shadow: 0 0 0 1px #ff9f43;
+            outline: none;
+        }
+        .input-group .icon {
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+            color: #6b7280; /* Gray color for icons */
+            transition: color 0.3s ease-in-out;
+        }
+        .input-group input:focus + .icon {
+            color: #ff9f43;
+        }
+
+        /* Custom styling for the button */
+        .btn-gradient {
+            background: linear-gradient(135deg, #ff9f43, #ff6b6b);
+            transition: all 0.3s ease-in-out;
+        }
+        .btn-gradient:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 159, 67, 0.4);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 text-white">
+
+    <!-- Sign Up Card Container -->
+    <div class="card-container w-full max-w-md rounded-2xl p-8 md:p-12">
+
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-bold">Create Account</h1>
+            <p class="text-gray-400 mt-2 text-sm">Join us and start your journey today</p>
+        </div>
+
+        <!-- Sign Up Form -->
+        <form id="signupForm" class="space-y-6">
+
+            <!-- Full Name Input -->
+            <div class="input-group">
+                <input
+                    type="text"
+                    id="fullName"
+                    name="fullName"
+                    placeholder="Full Name"
+                    required
+                    class="w-full px-4 py-3 rounded-lg bg-gray-800 text-white placeholder-gray-500 border border-transparent focus:border-gray-600"
+                >
+                <div class="icon">
+                    <!-- User icon from Lucide -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+            </div>
+
+            <!-- Email Input -->
+            <div class="input-group">
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Email Address"
+                    required
+                    class="w-full px-4 py-3 rounded-lg bg-gray-800 text-white placeholder-gray-500 border border-transparent focus:border-gray-600"
+                >
+                <div class="icon">
+                    <!-- Mail icon from Lucide -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </div>
+            </div>
+
+            <!-- Password Input -->
+            <div class="input-group">
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Password"
+                    required
+                    class="w-full px-4 py-3 rounded-lg bg-gray-800 text-white placeholder-gray-500 border border-transparent focus:border-gray-600"
+                >
+                <div class="icon">
+                    <!-- Lock icon from Lucide -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lock"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+            </div>
+
+            <!-- Confirm Password Input -->
+            <div class="input-group">
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    placeholder="Confirm Password"
+                    required
+                    class="w-full px-4 py-3 rounded-lg bg-gray-800 text-white placeholder-gray-500 border border-transparent focus:border-gray-600"
+                >
+                <div class="icon">
+                    <!-- Lock Keyhole Open icon from Lucide -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lock-keyhole-open"><path d="M15.2 21h.8a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2h-3a2 2 0 0 0-2 2v.5"/><path d="M2 18v3c0 .6.4 1 1 1h4v-3h3v-3h2l1.4-1.4a6.5 6.5 0 1 0-4-4Z"/></svg>
+                </div>
+            </div>
+
+            <!-- Sign Up Button -->
+            <button
+                type="submit"
+                class="w-full py-3 px-4 rounded-lg font-bold text-white btn-gradient"
+            >
+                Create Account
+            </button>
+
+            <!-- Already have an account? Link -->
+            <div class="text-center text-sm">
+                <p class="text-gray-400">
+                    Already have an account?
+                    <a href="#" class="font-medium text-orange-400 hover:underline transition-colors duration-200">
+                        Log In
+                    </a>
+                </p>
+            </div>
+
+            <!-- Message Box (initially hidden) -->
+            <div id="messageBox" class="mt-4 p-3 rounded-lg text-sm text-center text-white hidden"></div>
+        </form>
+
+    </div>
+
+    <script>
+        const signupForm = document.getElementById('signupForm');
+        const messageBox = document.getElementById('messageBox');
+
+        signupForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                messageBox.textContent = 'Passwords do not match. Please try again.';
+                messageBox.classList.remove('hidden', 'bg-green-600');
+                messageBox.classList.add('bg-red-600');
+                return;
+            }
+
+            messageBox.textContent = 'Sign up successful! Redirecting...';
+            messageBox.classList.remove('hidden', 'bg-red-600');
+            messageBox.classList.add('bg-green-600');
+
+            setTimeout(() => {
+                // In a real application, you'd perform the signup here and then redirect
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

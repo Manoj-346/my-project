@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegant Login</title>
+    <!-- Inter font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom CSS for the frosted glass effect and subtle glow */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),
+                        0 1px 3px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2),
+                        0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Styling for the animated input border */
+        .input-group {
+            position: relative;
+        }
+
+        .input-group input {
+            padding-left: 2.5rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #f7a372;
+            box-shadow: 0 0 0 3px rgba(247, 163, 114, 0.5);
+            outline: none;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-violet-500 to-fuchsia-500 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Login Card Container -->
+    <div class="glass-card w-full max-w-md rounded-2xl p-8 md:p-12 text-white">
+
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-bold">Welcome Back</h1>
+            <p class="text-white/80 mt-2 text-sm">Please sign in to your account</p>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="space-y-6">
+
+            <!-- Email Input -->
+            <div class="input-group">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <!-- Mail icon from Lucide -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail text-white/80">
+                        <rect width="20" height="16" x="2" y="4" rx="2"/>
+                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                    </svg>
+                </div>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Email Address"
+                    required
+                    class="w-full px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/60 border border-white/20 focus:border-white focus:ring-0 transition-all duration-300"
+                >
+            </div>
+
+            <!-- Password Input -->
+            <div class="input-group">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <!-- Lock icon from Lucide -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lock text-white/80">
+                        <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                </div>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Password"
+                    required
+                    class="w-full px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/60 border border-white/20 focus:border-white focus:ring-0 transition-all duration-300"
+                >
+            </div>
+
+            <!-- Secret Word for Password Hint -->
+            <div class="input-group">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <!-- Key icon from Lucide -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-key-round text-white/80">
+                        <path d="M2 18v3c0 .6.4 1 1 1h4v-3h3v-3h2l1.4-1.4a6.5 6.5 0 1 0-4-4Z"/>
+                        <circle cx="16.5" cy="7.5" r=".5"/>
+                    </svg>
+                </div>
+                <input
+                    type="text"
+                    id="secretWord"
+                    name="secretWord"
+                    placeholder="Secret word for password hint"
+                    class="w-full px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/60 border border-white/20 focus:border-white focus:ring-0 transition-all duration-300"
+                >
+            </div>
+
+            <!-- Generate Password Hint Button -->
+            <button
+                type="button"
+                id="generateHintBtn"
+                class="w-full py-3 px-4 rounded-lg font-semibold bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 text-white transition-all duration-300 transform hover:scale-105 shadow-lg"
+            >
+                ✨ Generate Password Hint
+            </button>
+
+            <!-- Password Hint Display Area -->
+            <div id="hintBox" class="mt-4 p-3 rounded-lg text-sm text-center bg-violet-800 text-white hidden"></div>
+
+            <!-- Remember Me & Forgot Password -->
+            <div class="flex items-center justify-between text-sm">
+                <div class="flex items-center">
+                    <input
+                        id="remember-me"
+                        name="remember-me"
+                        type="checkbox"
+                        class="h-4 w-4 text-violet-400 rounded focus:ring-violet-300 bg-white/20 border-white/30"
+                    >
+                    <label for="remember-me" class="ml-2 block text-white/90">
+                        Remember me
+                    </label>
+                </div>
+                <div class="text-right">
+                    <a href="#" class="font-medium text-white/90 hover:text-white transition-colors duration-200">
+                        Forgot Password?
+                    </a>
+                </div>
+            </div>
+
+            <!-- Login Button -->
+            <button
+                type="submit"
+                class="w-full py-3 px-4 rounded-lg font-semibold bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 text-white transition-all duration-300 transform hover:scale-105 shadow-lg"
+            >
+                Log In
+            </button>
+
+            <!-- Message Box (initially hidden) -->
+            <div id="messageBox" class="mt-4 p-3 rounded-lg text-sm text-center bg-violet-800 text-white hidden"></div>
+        </form>
+
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const messageBox = document.getElementById('messageBox');
+        const generateHintBtn = document.getElementById('generateHintBtn');
+        const secretWordInput = document.getElementById('secretWord');
+        const hintBox = document.getElementById('hintBox');
+
+        // Handles the form submission (remains unchanged)
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            messageBox.textContent = 'Login successful! Redirecting...';
+            messageBox.classList.remove('hidden', 'bg-red-600');
+            messageBox.classList.add('bg-green-600');
+
+            setTimeout(() => {
+                // messageBox.classList.add('hidden');
+            }, 3000);
+        });
+
+        // Function to handle the Gemini API call for generating a password hint
+        generateHintBtn.addEventListener('click', async function() {
+            const secretWord = secretWordInput.value.trim();
+
+            if (secretWord === '') {
+                hintBox.textContent = 'Please enter a secret word to generate a hint.';
+                hintBox.classList.remove('hidden', 'bg-violet-800');
+                hintBox.classList.add('bg-red-600');
+                return;
+            }
+
+            // Show a loading state
+            generateHintBtn.textContent = 'Generating...';
+            generateHintBtn.disabled = true;
+            hintBox.classList.add('hidden');
+
+            const prompt = `Create a creative and cryptic password hint for a password related to the word: ${secretWord}. Make it poetic and a maximum of 15 words.`;
+            const chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+            
+            // Configure API payload
+            const payload = {
+                contents: chatHistory,
+            };
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            try {
+                // Fetch the generated content from the Gemini API
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    hintBox.textContent = `Your hint: "${text}"`;
+                    hintBox.classList.remove('hidden', 'bg-red-600');
+                    hintBox.classList.add('bg-violet-800');
+                } else {
+                    hintBox.textContent = 'Could not generate a hint. Please try again.';
+                    hintBox.classList.remove('hidden', 'bg-violet-800');
+                    hintBox.classList.add('bg-red-600');
+                }
+
+            } catch (error) {
+                console.error('Error calling Gemini API:', error);
+                hintBox.textContent = 'Failed to connect to the hint generator. Please check your network connection.';
+                hintBox.classList.remove('hidden', 'bg-violet-800');
+                hintBox.classList.add('bg-red-600');
+            } finally {
+                // Reset button state
+                generateHintBtn.textContent = '✨ Generate Password Hint';
+                generateHintBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
