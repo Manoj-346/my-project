@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MX Player Replica</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0d0d;
+            color: #e0e0e0;
+        }
+
+        /* Custom scrollbar for horizontal carousels */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        
+        /* Fade effect on the hero banner */
+        .hero-fade-bottom {
+            background: linear-gradient(to top, rgba(13, 13, 13, 1) 0%, rgba(13, 13, 13, 0) 100%);
+        }
+
+        /* Custom glow effect on titles */
+        .glow-text {
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Responsive hiding of desktop nav items */
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none;
+            }
+        }
+
+        /* Styling for the search bar to make it responsive */
+        .search-container {
+            flex-grow: 1;
+            max-width: 400px;
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Main Container -->
+    <div class="min-h-screen flex flex-col overflow-x-hidden">
+
+        <!-- Header/Navbar -->
+        <header class="fixed top-0 left-0 w-full z-20 bg-black/50 backdrop-blur-sm p-4 flex items-center justify-between flex-wrap gap-4">
+            <div class="flex items-center space-x-4">
+                <!-- Custom MX Player style logo SVG -->
+                <div class="text-white text-3xl font-bold">
+                    <span class="text-yellow-500">MX</span>
+                    <span class="text-white">Player</span>
+                </div>
+            </div>
+            
+            <!-- Search bar and button added here -->
+            <div class="search-container flex items-center gap-2">
+                <input type="text" id="movie-title-input" placeholder="Search for movies, shows, and more..."
+                       class="flex-grow p-2 border border-gray-700 bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all duration-300 text-gray-200">
+                <button id="search-button"
+                        class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-full transition-colors duration-200 flex-shrink-0">
+                    Search
+                </button>
+            </div>
+
+            <nav class="flex items-center space-x-6">
+                <!-- Desktop Navigation Links -->
+                <div class="desktop-nav flex items-center space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Home</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Web Shows</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Movies</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Music</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">Kids</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors duration-200">News</a>
+                </div>
+                
+                <!-- Icons -->
+                <div class="flex items-center space-x-4">
+                    <!-- Language Icon -->
+                    <svg class="w-6 h-6 text-gray-400 hover:text-white transition-colors duration-200 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M3 9h12M3 13h12M3 17h12M3 21h12M18 10a8 8 0 11-16 0 8 8 0 0116 0z" />
+                    </svg>
+                    
+                    <!-- Profile Icon -->
+                    <svg class="w-6 h-6 text-gray-400 hover:text-white transition-colors duration-200 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </div>
+            </nav>
+        </header>
+        
+        <!-- Main Content Section -->
+        <main class="flex-grow pt-16 md:pt-20">
+            
+            <!-- Hero Banner Section -->
+            <section class="relative w-full h-80 sm:h-96 lg:h-[500px] overflow-hidden">
+                <img src="https://placehold.co/1920x1080/1a202c/fff?text=G.A.M.B.L.E.R" alt="Featured Movie" class="absolute inset-0 w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black/40"></div>
+                <div class="absolute inset-x-0 bottom-0 h-1/2 hero-fade-bottom"></div>
+                <div class="absolute bottom-0 left-0 p-8 sm:p-12 z-10">
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold glow-text mb-2">Gambler</h1>
+                    <p class="text-sm sm:text-base lg:text-lg text-gray-300 mb-4 max-w-lg">
+                        A gripping tale of justice and revenge set in the heart of the city.
+                    </p>
+                    <button class="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-6 rounded-full transition-colors duration-200">
+                        Watch Now
+                    </button>
+                </div>
+            </section>
+
+            <!-- Movie search results section -->
+            <section id="movie-results" class="p-4 md:p-8 min-h-[200px] flex items-center justify-center text-gray-500">
+                Search for a movie to see details here.
+            </section>
+
+            <!-- Video Carousels -->
+            <section class="p-4 md:p-8">
+
+                <!-- Recently Watched Carousel -->
+                <div class="mb-8">
+                    <h2 class="text-xl md:text-2xl font-semibold text-white mb-4">Recently Watched</h2>
+                    <div class="flex space-x-4 overflow-x-auto scrollbar-hide">
+                        <!-- Card 1 -->
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/e53e3e/fff?text=Action+Hero" alt="Action Hero" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">Action Hero</p>
+                                <p class="text-xs text-gray-500">1:45:00</p>
+                            </div>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/3182ce/fff?text=Tiger+Roars" alt="Tiger Roars" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">Tiger Roars</p>
+                                <p class="text-xs text-gray-500">0:30:00</p>
+                            </div>
+                        </div>
+                        <!-- Card 3 -->
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/48bb78/fff?text=Kingpin" alt="Kingpin" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">Kingpin</p>
+                                <p class="text-xs text-gray-500">2:05:00</p>
+                            </div>
+                        </div>
+                        <!-- Card 4 -->
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/9f7aea/fff?text=Crazy+Comedy" alt="Crazy Comedy" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">Crazy Comedy</p>
+                            </div>
+                        </div>
+                        <!-- Card 5 -->
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/d69e2e/fff?text=The+Lost+Files" alt="The Lost Files" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">The Lost Files</p>
+                            </div>
+                        </div>
+                        <!-- Card 6 -->
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/4fd1c5/fff?text=Space+Journey" alt="Space Journey" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">Space Journey</p>
+                            </div>
+                        </div>
+                        <!-- Card 7 -->
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/f6ad55/fff?text=The+Hunter" alt="The Hunter" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">The Hunter</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trending Now Carousel -->
+                <div class="mb-8">
+                    <h2 class="text-xl md:text-2xl font-semibold text-white mb-4">Trending Now</h2>
+                    <div class="flex space-x-4 overflow-x-auto scrollbar-hide">
+                        <!-- Card 1 -->
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/c05621/fff?text=The+Heist" alt="The Heist" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">The Heist</p>
+                            </div>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/667eea/fff?text=Mind+Games" alt="Mind Games" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">Mind Games</p>
+                            </div>
+                        </div>
+                        <!-- Card 3 -->
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/ecc94b/fff?text=The+Wrestler" alt="The Wrestler" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">The Wrestler</p>
+                            </div>
+                        </div>
+                        <!-- More cards... -->
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/4299e1/fff?text=Homecoming" alt="Homecoming" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">Homecoming</p>
+                            </div>
+                        </div>
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/ed64a6/fff?text=The+Treehouse" alt="The Treehouse" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">The Treehouse</p>
+                            </div>
+                        </div>
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/f56565/fff?text=LA+Confidential" alt="LA Confidential" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">LA Confidential</p>
+                            </div>
+                        </div>
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/4a5568/fff?text=Timeless+Love" alt="Timeless Love" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">Timeless Love</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Web Series for You Carousel -->
+                <div class="mb-8">
+                    <h2 class="text-xl md:text-2xl font-semibold text-white mb-4">Web Series for You</h2>
+                    <div class="flex space-x-4 overflow-x-auto scrollbar-hide">
+                        <!-- Card 1 -->
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/38a169/fff?text=Narcos+S1" alt="Narcos S1" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">Narcos S1</p>
+                            </div>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/805ad5/fff?text=Korean+Romance" alt="Korean Romance" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">Korean Romance</p>
+                            </div>
+                        </div>
+                        <!-- More cards... -->
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/d53f8c/fff?text=Thriller+S1" alt="Thriller S1" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">Thriller S1</p>
+                            </div>
+                        </div>
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/4299e1/fff?text=The+Creek" alt="The Creek" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">The Creek</p>
+                            </div>
+                        </div>
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/9f7aea/fff?text=Starship+Alpha" alt="Starship Alpha" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">Starship Alpha</p>
+                            </div>
+                        </div>
+                        <div class="flex-none w-36 sm:w-48 cursor-pointer transform transition-transform duration-200 hover:scale-105">
+                            <img src="https://placehold.co/300x450/4fd1c5/fff?text=Royal+Palace" alt="Royal Palace" class="w-full h-auto rounded-lg shadow-md">
+                            <div class="mt-2 text-center text-sm font-medium">
+                                <p class="text-gray-300">Royal Palace</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-[#1a1a1a] text-gray-400 p-8">
+            <div class="container mx-auto grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+                <!-- Column 1 -->
+                <div>
+                    <h4 class="text-white font-semibold mb-3">MX Player</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white">About Us</a></li>
+                        <li><a href="#" class="hover:text-white">Careers</a></li>
+                        <li><a href="#" class="hover:text-white">Press</a></li>
+                        <li><a href="#" class="hover:text-white">Blog</a></li>
+                    </ul>
+                </div>
+                <!-- Column 2 -->
+                <div>
+                    <h4 class="text-white font-semibold mb-3">Products</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white">Movies</a></li>
+                        <li><a href="#" class="hover:text-white">Web Shows</a></li>
+                        <li><a href="#" class="hover:text-white">Live TV</a></li>
+                        <li><a href="#" class="hover:text-white">Music</a></li>
+                    </ul>
+                </div>
+                <!-- Column 3 -->
+                <div>
+                    <h4 class="text-white font-semibold mb-3">Support</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white">Help & Support</a></li>
+                        <li><a href="#" class="hover:text-white">Feedback</a></li>
+                        <li><a href="#" class="hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white">Terms of Use</a></li>
+                    </ul>
+                </div>
+                <!-- Column 4 -->
+                <div>
+                    <h4 class="text-white font-semibold mb-3">Connect With Us</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white">Facebook</a></li>
+                        <li><a href="#" class="hover:text-white">Twitter</a></li>
+                        <li><a href="#" class="hover:text-white">Instagram</a></li>
+                        <li><a href="#" class="hover:text-white">YouTube</a></li>
+                    </ul>
+                </div>
+                <!-- App Downloads -->
+                <div class="col-span-2 md:col-span-4 lg:col-span-1">
+                    <h4 class="text-white font-semibold mb-3">Download App</h4>
+                    <div class="flex space-x-4">
+                        <img src="https://placehold.co/120x40/333/fff?text=App+Store" alt="App Store" class="rounded-md">
+                        <img src="https://placehold.co/120x40/333/fff?text=Google+Play" alt="Google Play" class="rounded-md">
+                    </div>
+                </div>
+            </div>
+            <div class="text-center text-sm text-gray-600 mt-8">
+                &copy; 2024 MX Player Replica. All rights reserved.
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        /**
+         * Fetches and displays a list of movie details by performing a real-time web search.
+         */
+        async function searchMovie() {
+            const movieInput = document.getElementById('movie-title-input');
+            const resultsDiv = document.getElementById('movie-results');
+            const title = movieInput.value.trim();
+            const apiKey = ""; // Gemini API key is automatically provided
+
+            if (!title) {
+                resultsDiv.innerHTML = `<p class="text-yellow-500 font-medium text-center">Please enter a movie title.</p>`;
+                return;
+            }
+
+            // Display a loading message while fetching data
+            resultsDiv.innerHTML = `
+                <div class="flex flex-col items-center justify-center space-y-2 text-white p-8">
+                    <svg class="animate-spin h-8 w-8 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <p class="text-gray-400">Searching the web for movies...</p>
+                </div>`;
+
+            try {
+                // Prompt the model to perform a web search and return a structured JSON response.
+                const prompt = `
+                    You are a movie search engine. Find a list of 5 popular movies related to "${title}" from your knowledge base or by performing a web search.
+                    For each movie, provide the title, a concise one-sentence description (snippet), and the year of release.
+                    The response must be a JSON array of objects.
+                    Example format:
+                    [
+                      {"title": "Movie Title", "description": "A short summary of the plot.", "year": 2020, "poster_url": "https://placehold.co/300x450/e53e3e/fff?text=Poster"},
+                      {"title": "Another Movie", "description": "A different plot summary.", "year": 2021, "poster_url": "https://placehold.co/300x450/3182ce/fff?text=Poster"}
+                    ]
+                    Generate a unique, but appropriate, placeholder image URL for each movie poster with a random color. The text on the placeholder image should be the movie title.
+                `;
+
+                // Payload for the API request with a structured response schema
+                const payload = {
+                    contents: [{
+                        parts: [{ text: prompt }]
+                    }],
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "ARRAY",
+                            items: {
+                                type: "OBJECT",
+                                properties: {
+                                    "title": { "type": "STRING" },
+                                    "description": { "type": "STRING" },
+                                    "year": { "type": "NUMBER" },
+                                    "poster_url": { "type": "STRING" }
+                                },
+                                "propertyOrdering": ["title", "description", "year", "poster_url"]
+                            }
+                        }
+                    }
+                };
+
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                let response = null;
+                let attempt = 0;
+                const maxAttempts = 5;
+                while (attempt < maxAttempts) {
+                    try {
+                        response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        if (response.ok) {
+                            break;
+                        }
+                    } catch (e) {
+                        console.error('Fetch attempt failed:', e);
+                    }
+                    attempt++;
+                    await new Promise(res => setTimeout(res, 2 ** attempt * 100));
+                }
+
+                if (!response || !response.ok) {
+                    throw new Error('Failed to fetch movie data from the API.');
+                }
+
+                const result = await response.json();
+                
+                // Check if the response is valid and contains content before parsing
+                if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
+                    const jsonText = result.candidates[0].content.parts[0].text;
+                    const parsedMovies = JSON.parse(jsonText);
+                    displayMovies(parsedMovies);
+                } else {
+                    resultsDiv.innerHTML = `<p class="text-gray-400 text-center">No movies found. Please try a different search query.</p>`;
+                }
+
+            } catch (error) {
+                console.error("Error fetching movie data:", error);
+                // Clear the results and display a user-friendly error message
+                resultsDiv.innerHTML = `<p class="text-red-500 font-medium text-center">An error occurred while fetching movies. Please try again later.</p>`;
+            }
+        }
+
+        /**
+         * Displays the movie data on the page.
+         * @param {Array<object>} movies The array of movie data to display.
+         */
+        function displayMovies(movies) {
+            const resultsDiv = document.getElementById('movie-results');
+            
+            if (!Array.isArray(movies) || movies.length === 0) {
+                resultsDiv.innerHTML = `<p class="text-gray-400 text-center">No movies found. Please try a different search query.</p>`;
+                return;
+            }
+
+            const moviesHtml = movies.map(movie => `
+                <div class="bg-gray-800 p-5 rounded-xl shadow-md space-y-4 flex flex-col sm:flex-row items-center sm:items-start sm:space-x-4 transition-transform hover:scale-[1.02]">
+                    <img src="${movie.poster_url}" alt="${movie.title} Poster" onerror="this.onerror=null;this.src='https://placehold.co/300x450/e5e7eb/7f7f7f?text=Poster+Not+Found';" class="rounded-lg shadow-lg w-36 h-auto flex-shrink-0">
+                    <div class="flex-grow text-center sm:text-left">
+                        <h3 class="text-2xl font-bold text-white mb-1">${movie.title} <span class="text-gray-400 font-normal">(${movie.year})</span></h3>
+                        <p class="text-gray-300">${movie.description}</p>
+                    </div>
+                </div>
+            `).join('');
+            
+            resultsDiv.innerHTML = `
+                <div class="w-full">
+                    <h2 class="text-2xl font-bold text-center text-white mb-6">Search Results</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl mx-auto">
+                        ${moviesHtml}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Get elements from the DOM
+        const searchButton = document.getElementById('search-button');
+        const movieInput = document.getElementById('movie-title-input');
+
+        // Add event listeners
+        searchButton.addEventListener('click', searchMovie);
+        movieInput.addEventListener('keypress', function(event) {
+            if (event.key === "Enter") {
+                searchMovie();
+            }
+        });
+    </script>
+</body>
+</html>
