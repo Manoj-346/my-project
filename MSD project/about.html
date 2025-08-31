@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About MH Shoppy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.8s ease-out; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .carousel-container { position: relative; overflow: hidden; }
+    .carousel-track { display: flex; transition: transform 0.5s ease; }
+    .carousel-item { min-width: 250px; flex-shrink: 0; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .carousel-item:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+    .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 0.5rem 1rem; cursor: pointer; border-radius: 0.25rem; z-index: 10; }
+    .carousel-btn.left { left: 0.5rem; }
+    .carousel-btn.right { right: 0.5rem; }
+
+    /* Team Card Hover Animation */
+    .team-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .team-card:hover { transform: translateY(-10px) scale(1.05); box-shadow: 0 15px 25px rgba(0,0,0,0.6); }
+  </style>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+
+<!-- Navbar -->
+<header class="bg-gray-800 shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 flex justify-between items-center py-3">
+    <div class="flex items-center space-x-3">
+      <img src="https://source.unsplash.com/60x60/?shopping,logo" alt="MH Shoppy Logo" class="w-12 h-12 rounded-full border-2 border-indigo-500">
+      <h1 class="text-2xl font-bold text-indigo-400">MH Shoppy</h1>
+    </div>
+    <nav class="flex items-center space-x-4">
+      <a href="index.html" class="hover:text-indigo-400 transition">Home</a>
+      <a href="about.html" class="text-indigo-400 font-semibold">About</a>
+      <a href="#" class="hover:text-indigo-400 transition">Shop</a>
+      <a href="#" class="hover:text-indigo-400 transition">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Hero Section -->
+<section class="text-center py-20 bg-gradient-to-r from-indigo-800 to-indigo-600">
+  <h2 class="text-5xl font-bold mb-4">About MH Shoppy</h2>
+  <p class="text-gray-200 text-lg max-w-2xl mx-auto">Your trusted online shopping destination delivering quality products since 2020.</p>
+  <img src="https://source.unsplash.com/1200x400/?shopping,store" class="mx-auto mt-8 rounded-xl shadow-lg fade-in" alt="Store Hero">
+</section>
+
+<!-- Our Story Section -->
+<section class="max-w-6xl mx-auto px-6 py-20 space-y-12 fade-in">
+  <h3 class="text-4xl font-bold text-indigo-400 mb-6 text-center">Our Story</h3>
+  <p class="text-gray-300 leading-relaxed text-lg text-center">
+    MH Shoppy started in 2020 with a mission to redefine online shopping in India. We began as a small team of passionate entrepreneurs determined to combine technology, design, and customer-first values to create a seamless shopping experience.
+  </p>
+  <p class="text-gray-300 leading-relaxed text-lg text-center mt-4">
+    Over the years, we expanded our catalog to include electronics, fashion, home essentials, and much more. We take pride in curating high-quality products at affordable prices and providing reliable customer service to thousands of satisfied customers.
+  </p>
+</section>
+
+<!-- Mission & Values Section -->
+<section class="max-w-6xl mx-auto px-6 py-20 space-y-12 fade-in">
+  <h3 class="text-4xl font-bold text-indigo-400 mb-6 text-center">Mission & Values</h3>
+  <p class="text-gray-300 leading-relaxed text-lg text-center">
+    Our mission is to deliver happiness to our customers through a seamless shopping experience. We value trust, transparency, and innovation in every step of our journey.
+  </p>
+  <div class="grid md:grid-cols-3 gap-6 mt-8">
+    <div class="bg-gray-800 p-6 rounded-xl shadow-lg hover:scale-105 transition transform text-center">
+      <h4 class="text-xl font-semibold mb-2">Quality Products</h4>
+      <p class="text-gray-400">All products meet high-quality standards before reaching your doorstep.</p>
+    </div>
+    <div class="bg-gray-800 p-6 rounded-xl shadow-lg hover:scale-105 transition transform text-center">
+      <h4 class="text-xl font-semibold mb-2">Affordable Prices</h4>
+      <p class="text-gray-400">Best value for your money without compromising quality.</p>
+    </div>
+    <div class="bg-gray-800 p-6 rounded-xl shadow-lg hover:scale-105 transition transform text-center">
+      <h4 class="text-xl font-semibold mb-2">Customer First</h4>
+      <p class="text-gray-400">Prioritizing customer satisfaction with reliable support.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Team Section -->
+<section class="max-w-6xl mx-auto px-6 py-20 fade-in">
+  <h3 class="text-4xl font-bold text-indigo-400 mb-12 text-center">Meet the Team</h3>
+  <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-10">
+    <!-- CEO -->
+    <div class="team-card bg-gray-800 p-6 rounded-xl shadow-lg text-center fade-in">
+      <img src="https://i.pinimg.com/1200x/27/37/57/2737577e729d08a9b8ba77d0b5397b54.jpg" alt="Manoj Nakka" class="mx-auto w-40 h-40 object-cover rounded-full mb-4">
+      <h4 class="text-lg font-semibold">Manoj Nakka</h4>
+      <p class="text-gray-400">Founder & CEO</p>
+      <p class="text-gray-400 mt-2 text-sm">Responsible for vision, strategy, and overall growth of MH Shoppy.</p>
+    </div>
+    <!-- Tech Lead -->
+    <div class="team-card bg-gray-800 p-6 rounded-xl shadow-lg text-center fade-in">
+      <img src="https://i.pinimg.com/736x/9b/a7/0c/9ba70cc4e3459e88c261444598da7419.jpg" alt="Tech Lead" class="mx-auto w-40 h-40 object-cover rounded-full mb-4">
+      <h4 class="text-lg font-semibold">Tech Lead</h4>
+      <p class="text-gray-400">Chief Technology Officer</p>
+      <p class="text-gray-400 mt-2 text-sm">Handles technology strategy, platform development, and innovation.</p>
+    </div>
+    <!-- Creative Head -->
+    <div class="team-card bg-gray-800 p-6 rounded-xl shadow-lg text-center fade-in">
+      <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?crop=entropy&cs=tinysrgb&fit=crop&h=150&w=150" alt="Creative Head" class="mx-auto w-40 h-40 object-cover rounded-full mb-4">
+      <h4 class="text-lg font-semibold">Creative Head</h4>
+      <p class="text-gray-400">Design & Branding</p>
+      <p class="text-gray-400 mt-2 text-sm">Focuses on branding, design, and user experience for all our products.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Products Carousel -->
+<section class="max-w-7xl mx-auto px-6 py-12 fade-in">
+  <h3 class="text-3xl font-bold text-indigo-400 mb-6 text-center">Featured Products</h3>
+  <div class="carousel-container relative">
+    <button class="carousel-btn left bg-indigo-600 hover:bg-indigo-700">❮</button>
+    <div class="carousel-track" id="carouselTrack"></div>
+    <button class="carousel-btn right bg-indigo-600 hover:bg-indigo-700">❯</button>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section class="text-center py-20 fade-in">
+  <h3 class="text-4xl font-bold text-indigo-400 mb-6">Contact Us</h3>
+  <p class="text-gray-300 text-lg mb-2">📧 Email: support@mhshoppy.com</p>
+  <p class="text-gray-300 text-lg mb-2">📞 Phone: +91 98765 43210</p>
+  <p class="text-gray-300 text-lg">📍 Location: Hyderabad, India</p>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-gray-400 mt-12">
+  <div class="max-w-7xl mx-auto px-6 py-10 grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+    <div>
+      <h4 class="text-white font-bold mb-4">MH Shoppy</h4>
+      <p>One-stop online shop for electronics, fashion, and more.</p>
+    </div>
+    <div>
+      <h4 class="text-white font-bold mb-4">Quick Links</h4>
+      <ul class="space-y-2">
+        <li><a href="index.html" class="hover:text-white">Home</a></li>
+        <li><a href="about.html" class="hover:text-white">About</a></li>
+        <li><a href="#" class="hover:text-white">Shop</a></li>
+        <li><a href="#" class="hover:text-white">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="text-white font-bold mb-4">Contact</h4>
+      <p>Email: support@mhshoppy.com</p>
+      <p>Phone: +91 98765 43210</p>
+      <p>Location: Hyderabad, India</p>
+    </div>
+    <div>
+      <h4 class="text-white font-bold mb-4">Follow Us</h4>
+      <div class="flex space-x-4">
+        <a href="#" class="hover:text-white">Facebook</a>
+        <a href="#" class="hover:text-white">Instagram</a>
+        <a href="#" class="hover:text-white">Twitter</a>
+      </div>
+    </div>
+  </div>
+  <p class="text-center py-4 border-t border-gray-700 mt-6">© 2025 MH Shoppy. All Rights Reserved.</p>
+</footer>
+
+<script>
+  // Scroll fade-in
+  const faders = document.querySelectorAll('.fade-in');
+  const appearOptions = { threshold: 0.2, rootMargin: "0px 0px -50px 0px" };
+  const appearOnScroll = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    });
+  }, appearOptions);
+  faders.forEach(fader => appearOnScroll.observe(fader));
+
+  // Product Carousel
+  const track = document.getElementById('carouselTrack');
+  const leftBtn = document.querySelector('.carousel-btn.left');
+  const rightBtn = document.querySelector('.carousel-btn.right');
+  let currentIndex = 0;
+  let products = [];
+  let autoSlideInterval;
+
+  async function loadProducts() {
+    try {
+      const res = await fetch('https://fakestoreapi.com/products?limit=10');
+      products = await res.json();
+      products.forEach(product => {
+        const card = document.createElement('div');
+        card.className = "carousel-item bg-gray-800 p-4 m-2 rounded-xl shadow-lg flex-shrink-0";
+        card.innerHTML = `
+          <img src="${product.image}" alt="${product.title}" class="w-full h-48 object-contain mb-2 rounded">
+          <h4 class="text-sm font-semibold text-white line-clamp-2">${product.title}</h4>
+          <p class="text-gray-400 mt-1">$${product.price}</p>`;
+        track.appendChild(card);
+      });
+      updateCarousel();
+      startAutoSlide();
+      window.addEventListener('resize', updateCarousel);
+    } catch (error) { console.error(error); }
+  }
+
+  function getVisibleItems() {
+    const width = window.innerWidth;
+    if (width < 640) return 1;
+    if (width < 1024) return 2;
+    return 3;
+  }
+
+  function updateCarousel() {
+    const visibleItems = getVisibleItems();
+    const itemWidth = track.querySelector('.carousel-item').offsetWidth + 16;
+    const maxIndex = products.length - visibleItems;
+    if (currentIndex > maxIndex) currentIndex = 0;
+    track.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+  }
+
+  leftBtn.addEventListener('click', () => {
+    const visibleItems = getVisibleItems();
+    const maxIndex = products.length - visibleItems;
+    currentIndex = currentIndex <= 0 ? maxIndex : currentIndex - 1;
+    updateCarousel();
+    resetAutoSlide();
+  });
+
+  rightBtn.addEventListener('click', () => {
+    const visibleItems = getVisibleItems();
+    const maxIndex = products.length - visibleItems;
+    currentIndex = currentIndex >= maxIndex ? 0 : currentIndex + 1;
+    updateCarousel();
+    resetAutoSlide();
+  });
+
+  function startAutoSlide() {
+    autoSlideInterval = setInterval(() => {
+      const visibleItems = getVisibleItems();
+      const maxIndex = products.length - visibleItems;
+      currentIndex = currentIndex >= maxIndex ? 0 : currentIndex + 1;
+      updateCarousel();
+    }, 3000);
+  }
+
+  function resetAutoSlide() {
+    clearInterval(autoSlideInterval);
+    startAutoSlide();
+  }
+
+  loadProducts();
+</script>
+</body>
+</html>
